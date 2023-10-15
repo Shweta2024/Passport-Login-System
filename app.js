@@ -12,9 +12,9 @@ const loginRoute = require("./routes/Login")
 const registerRoute = require("./routes/Register")
 
 // middlewares
+app.use(bodyParser.urlencoded({ extended: true })) // make sure to use bodyParser before the router
 app.use("/login", loginRoute)
 app.use("/register", registerRoute)
-app.use(bodyParser.urlencoded({extended:true}))
 
 
 app.listen(PORT, (req, res) => {

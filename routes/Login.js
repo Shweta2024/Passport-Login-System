@@ -6,6 +6,7 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
+    const {email, password} = req.body
 })
 
 module.exports = router
