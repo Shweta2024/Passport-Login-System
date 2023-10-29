@@ -5,6 +5,7 @@ const passport = require("passport")
 const initializePassport = require("./passport-config")
 const flash = require("express-flash")
 const session = require("express-session")
+require('dotenv').config()
 
 const PORT = process.env.PORT || 5000
 const app = express()
@@ -23,12 +24,14 @@ const registerRoute = require("./routes/Register")
 app.use(bodyParser.urlencoded({ extended: true })) // make sure to use bodyParser before the router
 app.use("/login", loginRoute)
 app.use("/register", registerRoute)
-app.use(flash())
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
 }))
+app.use(passport.initialize())
+app.use(passport.session())
+app.use(flash())
 
 app.listen(PORT, (req, res) => {
     console.log(`server started at port: ${PORT}`)

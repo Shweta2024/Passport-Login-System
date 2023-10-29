@@ -3,18 +3,21 @@ const bcrypt = require("bcrypt")
 const Users = require("./user")
 
 async function getUserByEmail(email) {
-    // const user = Users.find(user=> user.email == email)
-    const user = Users.find({email: email})
-    return user
+    console.log(email)
+    for (let i = 0; i < Users.length; i++){
+        if (Users[i].email === email)
+            return Users[i]
+    }
+    return null
 }
 
 async function authenticateUser(email, password, done) {
     try {
-        const user = getUserByEmail(email)
+        const user = await getUserByEmail(email)
 
         if (user == null)
             return done(null, false, { message: "No user with that email exists!" })
-        if (await bcrypt.compare(user.password, password))
+        if (await bcrypt.compare(password, user.password))
             return done(null, user)
         else
             return done(null, false, { message: "Incorrect password!" })

@@ -34,7 +34,7 @@ if server error occurs:-
     2. Password didn't matched.
     3. User found & password matched.
 
-<h3>Steap4: Use flash, session & passport</h3>
+<h3>Step4: Use flash, session & passport</h3>
 
 ```js
     const flash = require("express-flash")
@@ -46,7 +46,7 @@ if server error occurs:-
         resave: false,
         saveUninitialize: false
     }))
-    app.use(passport.initialize())
+    app.use(passport.initialize()) // initialize is a function inside passport, it set some of the basics
     app.use(passport.session())// since we want session to be persited over all the pages
 
 ```
@@ -54,3 +54,28 @@ if server error occurs:-
 - **resave**: do we want to save that session again if there isn't any changes
 - **saveUninitialize**: do we want to save an empty session
     
+<h3>Step5: Add passport authentication middleware to login route</h3>
+//strategy, options
+
+```js
+
+// passport.authenticate(<strategyName>, <options>)
+app.get('/login', passport.authenticate('local',{
+    successRedirect: '/', // on successful login we get redirected to home page
+    faliureRedirect: '/login', // if login falied we get redirected to login page
+    faliureFlash: true // in case of any error we'll be displaying the respective error message that we have specified in the `authenticateUser` function
+}))
+
+```
+
+- make changes in the login.ejs file so as to display the error messages in case of errors
+
+```html
+
+<!-- messages-> flash is going to set a variable messages, for all the messages
+error -> passport is going to set the error, which is whatever error we get as specified in the `authenticateUser` function -->
+<%if(messages.error)%>
+    <%=messages.error%>
+<%}%>
+
+```
