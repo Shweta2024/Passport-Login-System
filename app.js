@@ -18,6 +18,7 @@ initializePassport(passport)
 // importing routes
 const loginRoute = require("./routes/Login")
 const registerRoute = require("./routes/Register")
+const homeRoute = require("./routes/home")
 
 
 // middlewares
@@ -32,6 +33,7 @@ app.use(passport.session())
 app.use(flash())
 app.use("/login", loginRoute)
 app.use("/register", registerRoute)
+app.use("/home",homeRoute)
 
 app.listen(PORT, (req, res) => {
     console.log(`server started at port: ${PORT}`)
