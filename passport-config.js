@@ -2,6 +2,14 @@ const LocalStrategy = require("passport-local").Strategy
 const bcrypt = require("bcrypt")
 const Users = require("./user")
 
+async function getUserById(id) {
+    for (let i = 0; i < Users.length; i++){
+        if (Users[i].id === id)
+            return Users[i]
+    }
+    return null
+}
+
 async function getUserByEmail(email) {
     console.log(email)
     for (let i = 0; i < Users.length; i++){
@@ -34,8 +42,8 @@ function initialize(passport) {
     
     // serialize & deserialize
     // serialize user to store inside of a session
-    passport.serializeUser((user,done) => {})
-    passport.deserializeUser((id,done) => {})
+    passport.serializeUser((user,done) => done(null,user.id))
+    passport.deserializeUser((id,done) => done(null,getUserById(id)))
 }
 
 module.exports = initialize
