@@ -22,16 +22,16 @@ const registerRoute = require("./routes/Register")
 
 // middlewares
 app.use(bodyParser.urlencoded({ extended: true })) // make sure to use bodyParser before the router
-app.use("/login", loginRoute)
-app.use("/register", registerRoute)
 app.use(session({
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET || 'tempSecret',
     resave: false,
     saveUninitialized: false
 }))
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
+app.use("/login", loginRoute)
+app.use("/register", registerRoute)
 
 app.listen(PORT, (req, res) => {
     console.log(`server started at port: ${PORT}`)
