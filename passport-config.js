@@ -11,7 +11,6 @@ async function getUserById(id) {
 }
 
 async function getUserByEmail(email) {
-    console.log(email)
     for (let i = 0; i < Users.length; i++){
         if (Users[i].email === email)
             return Users[i]

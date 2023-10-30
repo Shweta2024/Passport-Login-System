@@ -170,8 +170,4 @@ router.post('/', (req, res,next) => {
 
 ```
 
-**@TODO**
-
-- name is not getting display: its showing undefined
-
 

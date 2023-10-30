@@ -3,9 +3,10 @@ const {checkAuthentication,checkNotAuthenticated} = require("../middleware/check
 
 
 
-router.get('/', checkAuthentication, (req, res) => {
-    console.log(req.user.name)
-    res.render("home",{text: `Welcome ${req.user.name}`})
+router.get('/', checkAuthentication, async (req, res) => {
+    // since req.user is giving a promise so we must await it
+    const user = await req.user
+    res.render("home",{text: `Welcome ${user.name}`})
 })
 
 router.post('/', (req, res,next) => {
