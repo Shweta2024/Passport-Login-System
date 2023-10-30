@@ -91,11 +91,15 @@ error -> passport is going to set the error, which is whatever error we get as s
 
 <h3>Step5: serializeUser & deserializeUser</h3>
 
+- [Understanding serializeUser & deserializeUser](https://stackoverflow.com/questions/27637609/understanding-passport-serialize-deserialize)
+
 ```js
 
 // serialize & deserialize
-// serialize user to store inside of a session
+// serializeUser is used to store userID inside session
 passport.serializeUser((user,done) => done(null,user.id))
+
+// deserializeUser: the userID is then used to get the entire user
 passport.deserializeUser((id,done) => done(null,getUserById(id)))
 
 
