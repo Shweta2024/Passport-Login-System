@@ -33,7 +33,7 @@ app.use(passport.session())
 app.use(flash())
 app.use("/login", loginRoute)
 app.use("/register", registerRoute)
-app.use("/home",homeRoute)
+app.use("/home", homeRoute)
 
 app.listen(PORT, (req, res) => {
     console.log(`server started at port: ${PORT}`)

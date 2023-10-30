@@ -109,3 +109,69 @@ router.get('/', (req, res) => {
 })
 
 ```
+
+
+<h3>Step6: Forbidden home route to the unauthenticated users</h3>
+
+- Forbidden home route to the unauthenticated users
+
+```js
+
+// this is a middleware: if the user is authenticated we pass the control to the next middleware
+// else we display 'Forbidden' message in the home route 
+function checkAuthentication(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next()
+    }
+    res.render('home', { text: "Forbidden" })
+    // res.redirect('/login') // uncomment this & comment the above line, if want to redirect unauthenticated users to 'login page' instead of displaying a forbidden message 
+}
+
+// add the 'checkAuthentication' middleware to the get method of home route
+// now if the user is authenticated then the control passes to the next middleware which is written below that displays 'Welcome' message along with the name of the user
+router.get('/', checkAuthentication, (req, res) => {
+    res.render("home",{text: `Welcome ${req.user.name}`})
+})
+
+```
+
+- 
+
+```js
+
+// if user is authenticated then they don't need to get access to login or register,so they'll be redirected to home page
+// else they will be continuting whatever they were doing i.e. either login or register
+// i.e. authenticated user if type /login route or register route in the browser they'll be redirected to home page 
+//and if they are not authenticated then they'll be simply redirected to whatever route they typed
+function checkNotAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return res.redirect('home')
+    }
+    next()
+}
+
+```
+
+<h3>Step7: Add Logout functionality</h3>
+
+- if successfully logged out then the user will be directed to the login page
+
+```js
+
+router.post('/', (req, res,next) => {
+    // it is a built-in function in passport that clears the session
+    req.logOut(function (err) {
+        if (err) {
+            return next(err)
+        }
+        res.redirect('login')
+    })
+})
+
+```
+
+**@TODO**
+
+- name is not getting display: its showing undefined
+
+
