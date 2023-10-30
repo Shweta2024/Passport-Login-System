@@ -1,12 +1,13 @@
 const express = require("express")
 const passport = require("passport")
 const router = express.Router()
+const {checkAuthentication,checkNotAuthenticated} = require("../middleware/checkAuthentication")
 
-router.get('/', (req, res) => {
+router.get('/', checkNotAuthenticated, (req, res) => {
     res.render("login")
 })
 
-router.post('/', passport.authenticate('local', {
+router.post('/', checkNotAuthenticated, passport.authenticate('local', {
     successRedirect: '/home',
     failureRedirect: '/login',
     failureFlash: true
